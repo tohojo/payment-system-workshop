@@ -11,8 +11,8 @@ class Customer(models.Model):
     def balance(self):
         balance = D("0.00")
 
-        # TODO: Implement logic here to compute the customer balance
-        #       Hint: Customer transactions are in self.transaction_set.all()
+        for t in self.transaction_set.all():
+            balance += t.amount
 
         return balance
 

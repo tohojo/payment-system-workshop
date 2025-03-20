@@ -11,7 +11,7 @@ def customer_list(request):
     #
     # Hint: The Customer object has a lookup function in Customer.objects.all()
 
-    context = {}
+    context = {"customer_list": Customer.objects.all()}
     return render(request, "payments/customer_list.html", context)
 
 def lookup_customer(request):
@@ -21,7 +21,8 @@ def lookup_customer(request):
     # Hint: The card number is in request.POST['card_number'], and the
     # get_object_or_404() function can be used to do the lookup
 
-    customer_id = 1
+    c = get_object_or_404(Customer, card_number=request.POST['card_number'])
+    customer_id = c.id
     return redirect('payments:transaction_list', customer_id)
 
 def add_customer(request):
@@ -33,7 +34,11 @@ def add_customer(request):
     #
     # Don't forget to call the .save() method on the Customer object after it is
     # created
-    new_customer_id = 1
+
+    c = Customer(name=request.POST['name'],
+                 card_number=request.POST['card_number'])
+    c.save()
+    new_customer_id = c.id
     return redirect('payments:transaction_list', new_customer_id)
 
 def transaction_list(request, customer_id):
@@ -45,7 +50,8 @@ def transaction_list(request, customer_id):
     # the list of transactions for a customer 'c' can be accessed as
     # c.transaction_set.all()
 
-    context = {}
+    c = get_object_or_404(Customer, pk=customer_id)
+    context = {"customer": c, "transaction_list": c.transaction_set.all()}
     return render(request, "payments/transaction_list.html", context)
 
 def add_transaction(request, customer_id):
@@ -57,4 +63,8 @@ def add_transaction(request, customer_id):
     # a customer object can add a new transaction using the
     # c.transaction_set.create() function.
 
+    c = get_object_or_404(Customer, pk=customer_id)
+
+    c.transaction_set.create(description=request.POST['description'],
+                             amount=request.POST['amount'])
     return redirect('payments:transaction_list', customer_id)
