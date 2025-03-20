@@ -1,0 +1,83 @@
+* Payment systems workshop
+A workshop to create a simple payment system interface, to be used for a
+workshop at the Digital Economics course at the IT University in Copenhagen on
+March 21st, 2025.
+
+** Prerequisites
+
+To run this, a working Python environment is needed, with the =virtualenv=
+utility installed. The "[[https://fedoraproject.org/labs/python-classroom][Fedora Python Classroom Lab]]" provides one such
+environment that can be run in a virtual machine, but any up-to-date Python
+installation should work.
+
+** Setup
+
+The commands below assume a Linux environment; they should carry over to an OSX
+environment as well, but may need some adjustment on Windows.
+
+*** Create environment
+
+To create a virtual Python environment in the =venv= directory and activate it,
+issue the following commands:
+
+#+begin_src sh
+  $ virtualenv venv
+  $ source venv/bin/activate
+#+end_src
+
+*** Install Django
+
+To install Django (inside the virtual environment, so after activating it),
+issue the following command:
+
+#+begin_src sh
+  $ pip install django
+#+end_src
+
+*** Create database
+
+To create and initialise the project database, issue the following commands:
+
+#+begin_src sh
+  $ cd payment-system/payments
+  $ python manage.py migrate
+#+end_src
+
+*** Create admin user
+To create a user for logging into the admin interface, issue the following
+command and answer the questions it asks:
+
+#+begin_src sh
+  $ python manage.py createsuperuser
+#+end_src
+
+*** Run development server:
+
+To run the development server, issue the following command:
+
+#+begin_src sh
+  $ python manage.py createsuperuser
+#+end_src
+
+Then visit the local page at http://127.0.0.1:8000/. The server will
+automatically reload itself on any code changes, so it can be left running while
+developing.
+
+** The task
+
+The application provided in this repository is a skeleton implementation of a
+very simple payment system. It is based on the [[https://www.djangoproject.com][Django project]] which is a
+framework for developing web applications in Python.
+
+The code for the payment system app lives in the =payment-system/payments=
+folder. The most important bits are the data model (in =models.py=) and the
+/views/ implementation (in =views.py=). The former defines the data model stored
+in the database, and the latter implements the logic of the application itself
+(with each view corresponding to a URL, with the mapping defined in =urls.py=).
+The views render their output from the templates included in the =templates/=
+folder.
+
+The application in its current state is incomplete; some of the URLs will work,
+others will spit out errors. The task is simply to implement the missing bits to
+get the application to work. There are comments marked with =TODO= in
+=models.py= and =views.py= indicating the missing bits to implement.
