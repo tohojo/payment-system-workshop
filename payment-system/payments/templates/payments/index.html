@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <title>Payment system</title>
+  </head>
+  <body>
+    <h1>Payment system</h1>
+    Enter a customers card number below to look them up:
+    <form action="{%url 'payments:lookup_customer' %}"
+          method="post">
+      {% csrf_token %}
+      <label for="card_number">Card number:</label><input type="text"
+      name="card_number" /><br />
+      <input type="submit" value="Lookup customer" />
+    </form>
+
+    Or see the <a href="{% url 'payments:customer_list'%}">customer list</a>.
+  </body>
+</html>

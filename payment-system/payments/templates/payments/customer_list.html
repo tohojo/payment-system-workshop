@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <title>Customer list</title>
+  </head>
+  <body>
+    <h1>Customer list</h1>
+    Click a customer name to see transactions for customer.
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Card number</th>
+        <th>Balance</th>
+      </tr>
+      {% for customer in customer_list %}
+      <tr>
+        <td><a href="{% url 'payments:transaction_list' customer.id%}">{{customer.name}}</a></td>
+        <td>{{customer.card_number}}</td>
+        <td>{{customer.balance}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <h2>Add customer</h2>
+    <form action="{%url 'payments:add_customer' %}"
+          method="post">
+      {% csrf_token %}
+      <label for="name">Customer name</label><input type="text"
+      name="name" /><br />
+      <label for="card_number">Card number</label><input type="text"
+                                               name="card_number" /><br />
+      <input type="submit" value="Add customer" />
+    </form>
+    <a href="{% url 'payments:index'%}">Back to index</a>
+  </body>
+</html>

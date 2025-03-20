@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <title>Transaction list</title>
+  </head>
+  <body>
+    <h1>Transaction list for: {{ customer.name }}</h1>
+    <p>Customer balance: {{ customer.balance }}<br />
+      Customer card number: {{ customer.card_number }}</p>
+
+    <h2>Transactions</h2>
+    <table>
+      <tr>
+        <th>Time</th>
+        <th>Description</th>
+        <th>Amount</th>
+      </tr>
+      {% for transaction in transaction_list %}
+      <tr>
+        <td>{{transaction.time}}</td>
+        <td>{{transaction.description}}</td>
+        <td>{{transaction.amount}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    <h2>Add transaction</h2>
+    <form action="{%url 'payments:add_transaction' customer.id %}"
+          method="post">
+      {% csrf_token %}
+      <label for="description">Description</label><input type="text"
+      name="description" /><br />
+      <label for="amount">Amount</label><input type="text"
+                                               name="amount" /><br />
+      <input type="submit" value="Add transaction" />
+    </form>
+    <a href="{% url 'payments:index'%}">Back to index</a>
+  </body>
+</html>
